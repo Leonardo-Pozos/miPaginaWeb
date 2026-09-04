@@ -1,8 +1,34 @@
-import React from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaMapMarkerAlt, FaEnvelope, FaWhatsapp } from 'react-icons/fa';
 
 export default function Contact() {
+  const [formData, setFormData] = useState({
+    nombre: '',
+    correo: '',
+    asunto: '',
+    mensaje: ''
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const { nombre, asunto, mensaje } = formData;
+
+    const emailDestino = "leonardopozosr03@gmail.com";
+    const asuntoCorreo = encodeURIComponent(asunto || "Nuevo contacto desde la página web");
+
+    const cuerpoCorreo = encodeURIComponent(
+      `Hola, ${mensaje}\n\n${nombre.trim()}.\n\n\n--- Enviado desde el formulario de la página web ---`
+    );
+
+    window.location.href = `mailto:${emailDestino}?subject=${asuntoCorreo}&body=${cuerpoCorreo}`;
+  };
+
   return (
     <section id="contacto" className="py-24 border-t border-slate-800">
       <div className="max-w-5xl mx-auto px-6">
@@ -21,7 +47,7 @@ export default function Contact() {
             className="space-y-8"
           >
             <h3 className="text-xl font-semibold text-white">Información de Contacto</h3>
-            
+
             <div className="flex items-start gap-4 text-slate-400">
               <FaMapMarkerAlt className="w-6 h-6 text-emerald-400 mt-1 shrink-0" />
               <div>
@@ -44,10 +70,10 @@ export default function Contact() {
               <FaWhatsapp className="w-6 h-6 text-emerald-400 mt-1 shrink-0" />
               <div>
                 <p className="font-medium text-white">WhatsApp</p>
-                <a 
-                  href="https://wa.me/524621887698" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
+                <a
+                  href="https://wa.me/524621887698"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="hover:text-emerald-400 transition-colors"
                 >
                   +52 462 188 7698
@@ -63,39 +89,52 @@ export default function Contact() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-slate-400 mb-1">Nombre</label>
-                <input 
-                  type="text" 
-                  id="name" 
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all" 
-                  placeholder="Tu nombre completo" 
+                <label className="block text-sm font-medium text-slate-400 mb-1">Nombre</label>
+                <input
+                  type="text"
+                  name="nombre" required value={formData.nombre} onChange={handleChange}
+                  className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
+                  placeholder="Tu nombre completo"
                 />
               </div>
-              
+
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-slate-400 mb-1">Correo Electrónico</label>
-                <input 
-                  type="email" 
-                  id="email" 
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all" 
-                  placeholder="ejemplo@correo.com" 
+                <label className="block text-sm font-medium text-slate-400 mb-1">Correo Electrónico</label>
+                <input
+                  type="email"
+                  name="correo"
+                  required value={formData.correo} onChange={handleChange}
+                  className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
+                  placeholder="ejemplo@correo.com"
                 />
               </div>
-              
+
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-slate-400 mb-1">Mensaje o detalles de tu proyecto</label>
-                <textarea 
-                  id="message" 
-                  rows="4" 
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all resize-none" 
+                <label className="block text-sm font-medium text-slate-400 mb-1">Asunto</label>
+                <input
+                  type="text"
+                  name="asunto"
+                  required value={formData.asunto} onChange={handleChange}
+                  className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
+                  placeholder="Cotazación de página web"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-400 mb-1">Mensaje o detalles de tu proyecto</label>
+                <textarea
+                  name="mensaje"
+                  rows="4"
+                  required value={formData.mensaje} onChange={handleChange}
+                  className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all resize-none"
                   placeholder="Hola, me gustaría cotizar una página corporativa para mi negocio..."
                 ></textarea>
               </div>
-              
-              <button 
-                type="submit" 
+
+              <button
+                type="submit"
                 className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-6 rounded-lg transition-colors"
               >
                 Enviar Mensaje

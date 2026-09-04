@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Navbar() {
@@ -15,6 +15,7 @@ export default function Navbar() {
 
   const navLinks = [
     { name: 'Servicios', href: '#servicios' },
+    { name: 'Proceso', href: '#proceso' },
     { name: 'Portafolio', href: '#portafolio' },
     { name: 'Contacto', href: '#contacto' },
   ];
@@ -34,7 +35,7 @@ export default function Navbar() {
         {/* Marca tipográfica en lugar de imagen */}
         <a href="#" className="group flex items-center gap-1 font-mono text-sm font-semibold tracking-tight text-slate-200">
           <span className="text-emerald-400">&lt;</span>
-          <span className="group-hover:text-white transition-colors">leonardo.dev</span>
+          <span className="group-hover:text-white transition-colors">leonardopozos.dev</span>
           <span className="text-emerald-400">/&gt;</span>
         </a>
 
